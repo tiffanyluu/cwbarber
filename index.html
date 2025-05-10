@@ -104,19 +104,198 @@
     </section>
 
     <!-- Gallery Section -->
-    <section class="gallery">
+    <section class="gallery" id="gallery">
       <div class="container">
         <div class="section-header">
           <h2>Our Work</h2>
-          <p>Check out some of our recent cuts and styles.</p>
+          <p>Check out some of our best cuts, styles, and shop moments.</p>
         </div>
-        <div class="gallery-grid">
-          <!-- <div class="gallery-item">
-            <img src="/api/placeholder/300/300" alt="Haircut Style 1" />
-          </div> -->
+
+        <!-- Gallery masonry grid -->
+        <div class="masonry-gallery"></div>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox">
+          <span class="lightbox-close">&times;</span>
+          <img class="lightbox-content" id="lightbox-img" />
+          <div class="lightbox-caption"></div>
+          <button class="lightbox-prev">&#10094;</button>
+          <button class="lightbox-next">&#10095;</button>
         </div>
       </div>
     </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const galleryImages = [
+          {
+            src: "assets/gallery/image2.jpg",
+            alt: "image2",
+          },
+          {
+            src: "assets/gallery/image3.jpg",
+            alt: "image3",
+          },
+          {
+            src: "assets/gallery/image4.jpg",
+            alt: "image4",
+          },
+          {
+            src: "assets/gallery/image5.jpg",
+            alt: "image5",
+          },
+          {
+            src: "assets/gallery/image8.jpg",
+            alt: "image8",
+          },
+          {
+            src: "assets/gallery/image9.jpg",
+            alt: "image9",
+          },
+          {
+            src: "assets/gallery/image11.jpg",
+            alt: "image11",
+          },
+          {
+            src: "assets/gallery/image13.jpg",
+            alt: "image13",
+          },
+          {
+            src: "assets/gallery/image14.jpg",
+            alt: "image14",
+          },
+          {
+            src: "assets/gallery/image15.jpg",
+            alt: "image15",
+          },
+          {
+            src: "assets/gallery/image16.jpg",
+            alt: "image16",
+          },
+          {
+            src: "assets/gallery/image18.jpg",
+            alt: "image18",
+          },
+          {
+            src: "assets/gallery/image20.jpg",
+            alt: "image20",
+          },
+          {
+            src: "assets/gallery/image21.jpg",
+            alt: "image21",
+          },
+          {
+            src: "assets/gallery/image23.jpg",
+            alt: "image23",
+          },
+          {
+            src: "assets/gallery/image24.jpg",
+            alt: "image24",
+          },
+          {
+            src: "assets/gallery/image25.jpg",
+            alt: "image25",
+          },
+          {
+            src: "assets/gallery/image26.jpg",
+            alt: "image26",
+          },
+          {
+            src: "assets/gallery/image28.jpg",
+            alt: "image28",
+          },
+          {
+            src: "assets/gallery/image29.jpg",
+            alt: "image29",
+          },
+          {
+            src: "assets/gallery/image30.jpg",
+            alt: "image30",
+          },
+          {
+            src: "assets/gallery/image31.jpg",
+            alt: "image31",
+          },
+        ];
+
+        const masonryGallery = document.querySelector(".masonry-gallery");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const lightboxCaption = document.querySelector(".lightbox-caption");
+        const lightboxClose = document.querySelector(".lightbox-close");
+        const lightboxPrev = document.querySelector(".lightbox-prev");
+        const lightboxNext = document.querySelector(".lightbox-next");
+        let currentImageIndex = 0;
+
+        galleryImages.forEach((image, index) => {
+          const galleryItem = document.createElement("div");
+          galleryItem.className = "masonry-item";
+
+          const aspectRatios = ["100%", "125%", "80%"]; // Portrait, standard, landscape variations
+          const randomRatio =
+            aspectRatios[Math.floor(Math.random() * aspectRatios.length)];
+          galleryItem.style.paddingBottom = randomRatio;
+
+          galleryItem.dataset.category = image.category;
+
+          const img = document.createElement("img");
+          img.src = image.src;
+          img.alt = image.alt;
+          img.loading = "lazy";
+
+          galleryItem.appendChild(img);
+          masonryGallery.appendChild(galleryItem);
+
+          galleryItem.addEventListener("click", () => {
+            openLightbox(index);
+          });
+        });
+
+        function openLightbox(index) {
+          currentImageIndex = index;
+          const image = galleryImages[index];
+          lightboxImg.src = image.src;
+          lightboxCaption.textContent = image.alt;
+          lightbox.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+          lightbox.style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+
+        function showPrevImage() {
+          currentImageIndex =
+            (currentImageIndex - 1 + galleryImages.length) %
+            galleryImages.length;
+          openLightbox(currentImageIndex);
+        }
+
+        function showNextImage() {
+          currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+          openLightbox(currentImageIndex);
+        }
+
+        lightboxClose.addEventListener("click", closeLightbox);
+        lightboxPrev.addEventListener("click", showPrevImage);
+        lightboxNext.addEventListener("click", showNextImage);
+
+        document.addEventListener("keydown", (e) => {
+          if (lightbox.style.display === "flex") {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") showPrevImage();
+            if (e.key === "ArrowRight") showNextImage();
+          }
+        });
+
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            closeLightbox();
+          }
+        });
+      });
+    </script>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
@@ -147,7 +326,13 @@
                 <div class="contact-icon">📞</div>
                 <div>
                   <p>Phone</p>
-                  <p><strong>(316) 942-7199</strong></p>
+                  <p>
+                    <strong
+                      ><a href="tel:+13169427199" class="phone-link"
+                        >(316) 942-7199</a
+                      ></strong
+                    >
+                  </p>
                 </div>
               </div>
               <div class="contact-item">
