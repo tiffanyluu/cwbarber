@@ -9,13 +9,15 @@
   </head>
   <body>
     <header>
-      <div class="turquoise-top-bar"></div>
       <div class="container">
         <nav class="navbar">
-          <img class="logo-img" src="/assets/newLogo.png" alt="logo" />
+          <a href="index.html">
+            <img class="logo-img" src="/assets/newLogo.png" alt="logo" />
+          </a>
           <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
@@ -101,201 +103,10 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery" id="gallery">
-      <div class="container">
-        <div class="section-header">
-          <h2>Our Work</h2>
-          <p>Check out some of our best cuts, styles, and shop moments.</p>
-        </div>
-
-        <!-- Gallery masonry grid -->
-        <div class="masonry-gallery"></div>
-
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox">
-          <span class="lightbox-close">&times;</span>
-          <img class="lightbox-content" id="lightbox-img" />
-          <div class="lightbox-caption"></div>
-          <button class="lightbox-prev">&#10094;</button>
-          <button class="lightbox-next">&#10095;</button>
-        </div>
+      <div class="gallery-btn-container">
+        <a href="gallery.html" class="gallery-btn">View Gallery</a>
       </div>
     </section>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const galleryImages = [
-          {
-            src: "/assets/gallery/image2.JPG",
-            alt: "image2",
-          },
-          {
-            src: "/assets/gallery/image3.JPG",
-            alt: "image3",
-          },
-          {
-            src: "/assets/gallery/image4.JPG",
-            alt: "image4",
-          },
-          {
-            src: "/assets/gallery/image5.JPG",
-            alt: "image5",
-          },
-          {
-            src: "/assets/gallery/image8.JPG",
-            alt: "image8",
-          },
-          {
-            src: "/assets/gallery/image9.JPG",
-            alt: "image9",
-          },
-          {
-            src: "/assets/gallery/image11.JPG",
-            alt: "image11",
-          },
-          {
-            src: "/assets/gallery/image13.JPG",
-            alt: "image13",
-          },
-          {
-            src: "/assets/gallery/image14.JPG",
-            alt: "image14",
-          },
-          {
-            src: "/assets/gallery/image15.JPG",
-            alt: "image15",
-          },
-          {
-            src: "/assets/gallery/image16.JPG",
-            alt: "image16",
-          },
-          {
-            src: "/assets/gallery/image18.JPG",
-            alt: "image18",
-          },
-          {
-            src: "/assets/gallery/image20.JPG",
-            alt: "image20",
-          },
-          {
-            src: "/assets/gallery/image21.JPG",
-            alt: "image21",
-          },
-          {
-            src: "/assets/gallery/image23.JPG",
-            alt: "image23",
-          },
-          {
-            src: "/assets/gallery/image24.JPG",
-            alt: "image24",
-          },
-          {
-            src: "/assets/gallery/image25.JPG",
-            alt: "image25",
-          },
-          {
-            src: "/assets/gallery/image26.JPG",
-            alt: "image26",
-          },
-          {
-            src: "/assets/gallery/image28.JPG",
-            alt: "image28",
-          },
-          {
-            src: "/assets/gallery/image29.JPG",
-            alt: "image29",
-          },
-          {
-            src: "/assets/gallery/image30.JPG",
-            alt: "image30",
-          },
-          {
-            src: "/assets/gallery/image31.JPG",
-            alt: "image31",
-          },
-        ];
-
-        const masonryGallery = document.querySelector(".masonry-gallery");
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-        const lightboxCaption = document.querySelector(".lightbox-caption");
-        const lightboxClose = document.querySelector(".lightbox-close");
-        const lightboxPrev = document.querySelector(".lightbox-prev");
-        const lightboxNext = document.querySelector(".lightbox-next");
-        let currentImageIndex = 0;
-
-        galleryImages.forEach((image, index) => {
-          const galleryItem = document.createElement("div");
-          galleryItem.className = "masonry-item";
-
-          const aspectRatios = ["100%", "125%", "80%"];
-          const randomRatio =
-            aspectRatios[Math.floor(Math.random() * aspectRatios.length)];
-          galleryItem.style.paddingBottom = randomRatio;
-
-          galleryItem.dataset.category = image.category;
-
-          const img = document.createElement("img");
-          img.src = image.src;
-          img.alt = image.alt;
-          img.loading = "lazy";
-
-          galleryItem.appendChild(img);
-          masonryGallery.appendChild(galleryItem);
-
-          galleryItem.addEventListener("click", () => {
-            openLightbox(index);
-          });
-        });
-
-        function openLightbox(index) {
-          currentImageIndex = index;
-          const image = galleryImages[index];
-          lightboxImg.src = image.src;
-          lightboxCaption.textContent = image.alt;
-          lightbox.style.display = "flex";
-          document.body.style.overflow = "hidden";
-        }
-
-        function closeLightbox() {
-          lightbox.style.display = "none";
-          document.body.style.overflow = "auto";
-        }
-
-        function showPrevImage() {
-          currentImageIndex =
-            (currentImageIndex - 1 + galleryImages.length) %
-            galleryImages.length;
-          openLightbox(currentImageIndex);
-        }
-
-        function showNextImage() {
-          currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-          openLightbox(currentImageIndex);
-        }
-
-        lightboxClose.addEventListener("click", closeLightbox);
-        lightboxPrev.addEventListener("click", showPrevImage);
-        lightboxNext.addEventListener("click", showNextImage);
-
-        document.addEventListener("keydown", (e) => {
-          if (lightbox.style.display === "flex") {
-            if (e.key === "Escape") closeLightbox();
-            if (e.key === "ArrowLeft") showPrevImage();
-            if (e.key === "ArrowRight") showNextImage();
-          }
-        });
-
-        lightbox.addEventListener("click", (e) => {
-          if (e.target === lightbox) {
-            closeLightbox();
-          }
-        });
-      });
-    </script>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
